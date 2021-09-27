@@ -28,42 +28,31 @@ function App(){
                setList(newAr)
     }
     const toDoList  = list.map((item)=>
-    <li className="listItem">{item.value} <button className="delBtn" onClick={()=> removeItem(item.key)}><MdDelete className='delIcon' size={25} /></button>
+    <li className="listItem">{item.value} <button className="del-btn" onClick={()=> removeItem(item.key)}><MdDelete className='del-icon' size={25} /></button>
     </li>)
 return (
-<div className='wrapper'>
-    <div className="wrapper-upper">
-        <div></div>
+<div className="container-fluid">
+    <div className="row top-empty-row">
     </div>
-    <div className="functional-section">
-        <div></div>
-        <div className='main-section'>
-            <div className='section-header'>
-                <div></div>
-                <div className='title'><h1> TO DO LIST</h1></div>
-                <div></div>
+    <div className=" row functional-section">
+        <div className="col-lg-3"></div>
+        <div className=" col-lg-6 main-section">
+            <div className="row section-header">
+                <div className="col-lg-12 section-title"> TO DO LIST </div>
                 </div>
-                <div className="section-input">
-                    <div></div>
-                    <div><input type="text" className="taskInput" placeholder="Add Tasks..."onChange={addItem} /></div>
-                    <div></div>
-                    <div><button onClick={pushItem} className="addBtn"> <GrAddCircle size={25} /> </button></div>
-                    <div></div>
+                <div className="row section-input">
+                        <input type="text" className="task-input" placeholder="Add Tasks..." onChange={addItem} /> 
+                    <button onClick={pushItem} className="add-btn"> <GrAddCircle className="add-icon" size={25} /> </button>
                  </div>
-<div className="section-list">
-<div></div>
-    <div>
+<div className="row section-list">
     <ul className="list">
     {toDoList}
-</ul>
+    </ul>
     </div>
-    <div></div>
-    </div>
+</div> {/* main-section */}
+<div className="col-lg-3"></div>
 </div>
-        <div></div>
-
-</div>
- <div></div>
+ <div className="row"></div>
 </div>
 
 );

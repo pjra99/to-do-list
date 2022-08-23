@@ -37,8 +37,14 @@ function App() {
     }
   }
   function handleDone(k) {
+    let ar = [...tasks];
+    for (let i = 0; i < tasks.length; i++) {
+      if (k === tasks[i].id && ar[i].completed === true) {
+        alert("It's already marked Done.");
+        return;
+      }
+    }
     if (Confirmation("for completing a task")) {
-      let ar = [...tasks];
       for (let i = 0; i < tasks.length; i++) {
         if (k === tasks[i].id) {
           ar[i].completed = true;
@@ -53,6 +59,7 @@ function App() {
       style={{
         textDecoration: i.completed ? "line-through" : "",
       }}
+      key={Math.random()}
     >
       {i.value}{" "}
       <button

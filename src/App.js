@@ -1,61 +1,96 @@
-import React, {useState} from 'react'
-import {MdDelete} from 'react-icons/md'
-import {GrAddCircle} from 'react-icons/gr'
-import './App.css'
+import "./assets/main.css";
+import { useState } from "react";
 
-function App(){
+function App() {
+  const [tasks, setTasks] = useState([]);
+  const [currVal, setCurrVal] = useState("");
 
- const[list, setList] = useState([])
-   
- const [input, setInput] =  useState('')
-    function addItem(e){
-        
-        setInput(e.target.value);
+  function handleClick() {
+    let ar = [...tasks];
+
+    if (currVal !== "") {
+      setTasks([
+        ...ar,
+        {
+          id: Math.random(),
+          value: currVal,
+          completed: false,
+        },
+      ]);
     }
-    function pushItem(){
-        if(input==''){
+  }
+  function handleInput(e) {
+    setCurrVal(e.target.value);
+  }
 
+  function Confirmation(forWhat) {
+    var Val =
+      forWhat === "for deleting"
+        ? window.confirm("Are you sure to delete this task?")
+        : window.confirm("Are you sure you have completed the task?");
+    return Val;
+  }
+  function handleDel(j) {
+    if (Confirmation("for deleting")) {
+      let newList = tasks.filter((i) => i.id !== j);
+      setTasks(newList);
+    }
+  }
+  function handleDone(k) {
+    if (Confirmation("for completing a task")) {
+      let ar = [...tasks];
+      for (let i = 0; i < tasks.length; i++) {
+        if (k === tasks[i].id) {
+          ar[i].completed = true;
         }
-        else {
-           setList([...list, {
-               key: Math.floor(Math.random()*10),
-               value: input
-            }])
-        }
+      }
+      setTasks(ar);
     }
-    function removeItem(key){
-        const newAr = list.filter((item) => item.key !== key);
-               setList(newAr)
-    }
-    const toDoList  = list.map((item)=>
-    <li className="listItem">{item.value} <button className="del-btn" onClick={()=> removeItem(item.key)}><MdDelete className='del-icon' size={25} /></button>
-    </li>)
-return (
-<div className="container-fluid">
-    <div className="row top-empty-row">
+  }
+  const lists = tasks.map((i) => (
+    <div
+      className="mt-3 pb-1 border-b-2 pb-2"
+      style={{
+        textDecoration: i.completed ? "line-through" : "",
+      }}
+    >
+      {i.value}{" "}
+      <button
+        className="border-2 float-right bg-transparent border-none ml-2"
+        onClick={() => handleDel(i.id)}
+      >
+        <img src="delete_icon.svg" className="w-6" alt="Delete" />
+      </button>
+      <button
+        className="border-2 float-right bg-transparent border-none"
+        onClick={() => handleDone(i.id)}
+      >
+        <img src="done.svg" className="w-5 mt-1" alt="Done" />
+      </button>
     </div>
-    <div className=" row functional-section">
-        <div className="col-lg-3"></div>
-        <div className=" col-lg-6 main-section">
-            <div className="row section-header">
-                <div className="col-lg-12 section-title"> TO DO LIST </div>
-                </div>
-                <div className="row section-input">
-                        <input type="text" className="task-input" placeholder="Add Tasks..." onChange={addItem} /> 
-                    <button onClick={pushItem} className="add-btn"> <GrAddCircle className="add-icon" size={25} /> </button>
-                 </div>
-<div className="row section-list">
-    <ul className="list">
-    {toDoList}
-    </ul>
-    </div>
-</div> {/* main-section */}
-<div className="col-lg-3"></div>
-</div>
- <div className="row"></div>
-</div>
+  ));
 
-);
+  return (
+    <div className="container-fluid">
+      <div className="flex justify-center mt-10 text-xl"> To-do List</div>
+      <div className="flex justify-center mt-10">
+        <input
+          type="text"
+          className="border-2 w-72"
+          placeholder="Add Tasks"
+          onChange={(e) => handleInput(e)}
+        />{" "}
+        <button className="border-2" onClick={handleClick}>
+          Add{" "}
+        </button>
+      </div>
+      <div className="flex justify-center mt-6">
+        <div className="xl:w-1/4 lg:w-2/5 md:w-80 w-screen md:mx-0 mx-5">
+          {lists}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
